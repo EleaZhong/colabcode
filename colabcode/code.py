@@ -48,7 +48,7 @@ class ColabCode:
     def _install_code():
         subprocess.run(["wget", "https://code-server.dev/install.sh"], stdout=subprocess.PIPE)
         subprocess.run(
-            ["sh", "install.sh", "--version", f"{CODESERVER_VERSION}"],
+            ["sh", "install.sh"],
             stdout=subprocess.PIPE,
         )
 
@@ -64,7 +64,7 @@ class ColabCode:
         for tunnel in active_tunnels:
             public_url = tunnel.public_url
             ngrok.disconnect(public_url)
-        url = ngrok.connect(addr=self.port, bind_tls=True)
+        url = ngrok.connect(addr=self.port, bind_tls=True, subdomain="meteor-labs")
         if self._code:
             print(f"Code Server can be accessed on: {url}")
         else:
