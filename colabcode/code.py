@@ -28,6 +28,7 @@ class ColabCode:
         mount_drive=False,
         code=True,
         lab=False,
+        subdomain=None,
     ):
         self.port = port
         self.password = password
@@ -35,6 +36,7 @@ class ColabCode:
         self._mount = mount_drive
         self._code = code
         self._lab = lab
+        self._subdomain = subdomain
         if self._lab:
             self._start_server()
             self._run_lab()
@@ -64,7 +66,10 @@ class ColabCode:
         for tunnel in active_tunnels:
             public_url = tunnel.public_url
             ngrok.disconnect(public_url)
-        url = ngrok.connect(addr=self.port, bind_tls=True, subdomain="meteor-labs")
+        if self._subdomain:
+            url = ngrok.connect(addr=self.port, bind_tls=True, subdomain=self._subdomain)
+        else:
+            url = ngrok.connect(addr=self.port, bind_tls=True)
         if self._code:
             print(f"Code Server can be accessed on: {url}")
         else:

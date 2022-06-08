@@ -31,6 +31,12 @@ if __name__ == "__main__":
         help="if you use --mount_drive, your google drive will be mounted",
     )
 
+    optional.add_argument(
+        "--subdomain",
+        type=str,
+        help="ngrok subdomain",
+    )
+
     args = parser.parse_args()
 
-    ColabCode(port=args.port, password=args.password, mount_drive=args.mount_drive)
+    ColabCode(port=args.port, password=args.password, mount_drive=args.mount_drive, subdomain=args.subdomain)
